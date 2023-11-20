@@ -2,7 +2,7 @@ package com.spring.test.demo.security;
 
 
 import com.spring.test.demo.services.JwtService;
-import com.spring.test.demo.services.UserInfoService;
+import com.spring.test.demo.components.UserInfo;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UserInfoService userInfoService;
+    private final UserInfo userInfo;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest httpServletRequest, @NonNull HttpServletResponse httpServletResponse, @NonNull FilterChain filterChain)
@@ -40,7 +40,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         jwt = authHeader.substring(7);
         userName = jwtService.getUserNameFromToken(jwt);
         if(StringUtils.hasLength(userName) && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = userInfoService.userDetailsService().loadUserByUsername(userName);
+            UserDetails userDetails = userInfo.userDetailsService().loadUserByUsername(userName);
             if(jwtService.validateToken(jwt, userDetails)){
                 SecurityContext context = SecurityContextHolder.createEmptyContext();
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

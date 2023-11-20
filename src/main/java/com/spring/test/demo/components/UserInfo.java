@@ -1,4 +1,4 @@
-package com.spring.test.demo.services;
+package com.spring.test.demo.components;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.User;
@@ -10,7 +10,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserInfoService {
+public class UserInfo {
 
     @Bean
     private PasswordEncoder passwordEncoder(){
